@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'pages/home_page.dart';
 
-void main() {
+void main() async {
+  // 환경변수 읽기
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
