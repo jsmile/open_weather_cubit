@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-class DirectGeocoing extends Equatable {
+// openweather에서 제공하는 api 결과값을 직접 받는 model
+class DirectGeocoding extends Equatable {
   final String name;
   final double lat;
   final double lng;
   final String country; // 국가코드
   final String state; //국가명
 
-  const DirectGeocoing({
+  const DirectGeocoding({
     required this.name,
     required this.lat,
     required this.lng,
@@ -15,10 +16,10 @@ class DirectGeocoing extends Equatable {
     required this.state,
   });
 
-  factory DirectGeocoing.fromJson(List<dynamic> json) {
+  factory DirectGeocoding.fromJson(List<dynamic> json) {
     final Map<String, dynamic> data = json[0];
 
-    return DirectGeocoing(
+    return DirectGeocoding(
         name: data['name'],
         lat: data['lat'],
         lng: data['lng'],
