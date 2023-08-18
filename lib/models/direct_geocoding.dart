@@ -4,14 +4,14 @@ import 'package:equatable/equatable.dart';
 class DirectGeocoding extends Equatable {
   final String name;
   final double lat;
-  final double lng;
+  final double lon;
   final String country; // 국가코드
   final String state; //국가명
 
   const DirectGeocoding({
     required this.name,
     required this.lat,
-    required this.lng,
+    required this.lon,
     required this.country,
     required this.state,
   });
@@ -22,7 +22,7 @@ class DirectGeocoding extends Equatable {
     return DirectGeocoding(
         name: data['name'],
         lat: data['lat'],
-        lng: data['lng'],
+        lon: data['lon'],
         country: data['country'],
         state: data['state']);
   }
@@ -32,7 +32,7 @@ class DirectGeocoding extends Equatable {
     return [
       name,
       lat,
-      lng,
+      lon,
       country,
       state,
     ];
@@ -40,6 +40,6 @@ class DirectGeocoding extends Equatable {
 
   @override
   String toString() {
-    return 'DirectGocoing(name: $name, lat: $lat, lng: $lng, country: $country, state: $state)';
+    return 'DirectGocoing(name: $name, lat: $lat, lng: $lon, country: $country, state: $state)';
   }
 }
