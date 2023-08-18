@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
     _fetchWeather();
   }
 
+  // WeatherRepository 테스트
   void _fetchWeather() {
     WeatherRepository(
       weatherApiService: WeatherApiService(
