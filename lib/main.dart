@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
+import 'package:open_weather_cubit/cubits/weather/weather_cubit.dart';
+import 'repositories/weather_repository.dart';
 
 import 'pages/home_page.dart';
+import 'services/weather_api_service.dart';
 
 void main() async {
   // 환경변수 읽기
@@ -15,13 +20,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter BLoC - OpenWeather Cubit',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+    return RepositoryProvider(
+      create: (context) => WeatherRepository(
+        weatherApiService: WeatherApiService(
+          httpClient: http.Client(),
+        ),
       ),
-      home: const HomePage(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<WeatherCubit>(
+            create: (context) => WeatherCubit(
+              weatherRepository: context.read<WeatherRepository>(),
+            ),
+          )
+        ],
+        child: MaterialApp(
+          title: 'Flutter BLoC - OpenWeather Cubit',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+            useMaterial3: true,
+          ),
+          home: const HomePage(),
+        ),
+      ),
     );
   }
 }
