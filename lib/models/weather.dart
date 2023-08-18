@@ -95,4 +95,28 @@ class Weather extends Equatable {
 
   factory Weather.fromJson(String source) =>
       Weather.fromMap(json.decode(source));
+
+  Weather copyWith({
+    String? discription,
+    String? icon,
+    double? temp,
+    double? tempMin,
+    double? tempMax,
+    String? name,
+    String? country,
+    String? state,
+    DateTime? lastUpdated,
+  }) {
+    return Weather(
+      discription: discription ?? this.discription,
+      icon: icon ?? this.icon,
+      temp: temp ?? this.temp,
+      tempMin: tempMin ?? this.tempMin,
+      tempMax: tempMax ?? this.tempMax,
+      name: name ?? this.name,
+      country: country ?? this.country,
+      state: state ?? this.state,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+    );
+  }
 }
