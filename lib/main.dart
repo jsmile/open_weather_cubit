@@ -10,8 +10,8 @@ import 'services/weather_api_service.dart';
 
 void main() async {
   // 환경변수 읽기
-  await dotenv.load(fileName: '.env', isOptional: true);
-  // await dotenv.load(fileName: '.env');
+  // await dotenv.load(fileName: '.env', isOptional: true);
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
