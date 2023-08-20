@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_weather_cubit/cubits/weather/weather_cubit.dart';
 import 'package:open_weather_cubit/pages/search_page.dart';
+
+import '../utils/ansi_color.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,6 +36,12 @@ class _HomePageState extends State<HomePage> {
                   builder: (context) => const SearchPage(),
                 ),
               );
+              debugPrint(info('### city : $city'));
+
+              // 검색 결과가 있으면 날씨 정보를 가져옴.
+              if (city != null) {
+                context.read<WeatherCubit>().fetchWeather(city!);
+              }
             },
           )
         ],

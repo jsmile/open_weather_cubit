@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../utils/ansi_color.dart';
-
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -54,7 +52,6 @@ class _SearchPageState extends State<SearchPage> {
                 // form submit 시 호출
                 onSaved: (String? input) {
                   _city = input;
-                  debugPrint(info('### onSaved : $_city'));
                 },
               ),
             ),
