@@ -1,7 +1,7 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_weather_cubit/cubits/weather/weather_cubit.dart';
 
@@ -14,7 +14,7 @@ void main() async {
   ansiColorDisabled = false;
   // 환경변수 읽기
   // await dotenv.load(fileName: '.env', isOptional: true);
-  // await dotenv.load(fileName: '.env');
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
