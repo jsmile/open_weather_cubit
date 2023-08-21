@@ -46,9 +46,61 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: const Center(
-        child: Text('Home'),
-      ),
+      body: _showWeather(),
+    );
+  }
+
+  // 조회결과가 정상이면 날씨 정보를 보여주고,
+  // Error 이면 Error Dialog 를 보여줌.
+  Widget _showWeather() {
+    return BlocConsumer<WeatherCubit, WeatherState>(
+      // listener : error 발생여부 관찰
+      // builder : 조회결과에 따른 화면 표시
+      listener: (context, state) {
+        if (state.status == WeatherStatus.failure) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(state.error.errMag),
+              );
+            },
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state.status == WeatherStatus.initial) {
+          return const Center(
+            child: Text(
+              'Select a city',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          );
+        }
+
+        if (state.status == WeatherStatus.loading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if ((state.status == WeatherStatus.failure) &&
+            (state.weather.name == '')) {
+          return const Center(
+            child: Text(
+              'Select a city',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          );
+        }
+
+        return Center(
+          child: Text(
+            state.weather.name,
+            style: const TextStyle(fontSize: 20.0),
+          ),
+        );
+      },
     );
   }
 }

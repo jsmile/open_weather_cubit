@@ -25,6 +25,8 @@ class WeatherCubit extends Cubit<WeatherState> {
 
     try {
       final weather = await weatherRepository.fetchWeather(city);
+      debugPrint(success('### weather : $weather'));
+
       // API 호출이 완료되었음을 반영
       emit(state.copyWith(
         status: WeatherStatus.loaded,
