@@ -4,6 +4,7 @@ import 'package:open_weather_cubit/cubits/weather/weather_cubit.dart';
 import 'package:open_weather_cubit/pages/search_page.dart';
 
 import '../utils/ansi_color.dart';
+import '../widgets/error_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -58,14 +59,7 @@ class _HomePageState extends State<HomePage> {
       // builder : 조회결과에 따른 화면 표시
       listener: (context, state) {
         if (state.status == WeatherStatus.failure) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: Text(state.error.errMag),
-              );
-            },
-          );
+          errorDialog(context, state.error.errMag);
         }
       },
       builder: (context, state) {

@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:open_weather_cubit/exceptions/weather_exception.dart';
 import 'package:open_weather_cubit/models/custom_error.dart';
 import 'package:open_weather_cubit/models/weather.dart';
 import 'package:open_weather_cubit/services/weather_api_service.dart';
 
 import '../models/direct_geocoding.dart';
+import '../utils/ansi_color.dart';
 
 class WeatherRepository {
   final WeatherApiService weatherApiService;
@@ -19,10 +21,12 @@ class WeatherRepository {
       final DirectGeocoding directGeocoding =
           await weatherApiService.getDirectGeocoding(city);
       // print('### DirectGeocoding: $directGeocoding');
+      debugPrint(info('### DirectGeocoding: $directGeocoding'));
 
       final Weather tempWeather =
           await weatherApiService.getWeather(directGeocoding);
       // print('### tempWeather: $tempWeather');
+      debugPrint(info('### tempWeather: $tempWeather'));
 
       //getDirectGeocoding() 지역명과 getWeather() 의 지역명이 다를 수 있어서
       //name 과 country 등을 directGeocoding 의 항목으로 변경함.
@@ -32,6 +36,7 @@ class WeatherRepository {
         state: directGeocoding.state,
       );
       // print('### weather: $weather');
+      // debugPrint(success('### weather: $weather'));
 
       return weather;
     } on WeatherException catch (e) {
