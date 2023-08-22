@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_weather_cubit/cubits/temp_settings/temp_settings_cubit.dart';
 import 'package:open_weather_cubit/cubits/weather/weather_cubit.dart';
 import 'package:open_weather_cubit/pages/search_page.dart';
 import 'package:recase/recase.dart';
@@ -7,6 +8,7 @@ import 'package:recase/recase.dart';
 import '../constants/constants.dart';
 import '../utils/ansi_color.dart';
 import '../widgets/error_dialog.dart';
+import 'settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text(
@@ -45,6 +48,17 @@ class _HomePageState extends State<HomePage> {
               if (city != null) {
                 context.read<WeatherCubit>().fetchWeather(city!);
               }
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsPage(),
+                ),
+              );
             },
           )
         ],
@@ -169,6 +183,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   String showTemperature(double temperature) {
+    final tempUnit = context.watch<TempSettingsCubit>().state.tempUnit;
+
+    if (tempUnit == TempUnit.fahrenheit) {
+      return '${(temperature * 9 / 5 + 32).toStringAsFixed(2)} ℉';
+    }
+
     return '${temperature.toStringAsFixed(2)} ℃';
   }
 
