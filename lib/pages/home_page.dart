@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_weather_cubit/cubits/weather/weather_cubit.dart';
 import 'package:open_weather_cubit/pages/search_page.dart';
+import 'package:recase/recase.dart';
 
+import '../constants/constants.dart';
 import '../utils/ansi_color.dart';
 import '../widgets/error_dialog.dart';
 
@@ -88,13 +90,105 @@ class _HomePageState extends State<HomePage> {
           );
         }
 
-        return Center(
-          child: Text(
-            state.weather.name,
-            style: const TextStyle(fontSize: 20.0),
-          ),
+        return ListView(
+          children: [
+            // MediaQuery.of(context).size.height : 화면 높이
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 6,
+            ),
+            Text(
+              state.weather.name,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 40.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  // TimeOfDay 의 format() 으로 local time 으로 표시
+                  TimeOfDay.fromDateTime(state.weather.lastUpdated)
+                      .format(context),
+                  style: const TextStyle(fontSize: 18.0),
+                ),
+                const SizedBox(width: 10.0),
+                Text(
+                  state.weather.country,
+                  style: const TextStyle(fontSize: 18.0),
+                ),
+              ],
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  showTemperature(state.weather.temp),
+                  style: const TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 20.0),
+                Column(
+                  children: [
+                    Text(
+                      showTemperature(state.weather.tempMax),
+                      style: const TextStyle(fontSize: 16.0),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text(
+                      showTemperature(state.weather.tempMin),
+                      style: const TextStyle(fontSize: 16.0),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Spacer(),
+                showIcon(state.weather.icon),
+                // 적절한 공간 배분을 위해 Expanded( flex: ) 사용
+                Expanded(
+                  flex: 3,
+                  child: formatDescText(state.weather.discription),
+                ),
+                const Spacer(),
+              ],
+            )
+          ],
         );
       },
+    );
+  }
+
+  String showTemperature(double temperature) {
+    return '${temperature.toStringAsFixed(2)} ℃';
+  }
+
+  Widget showIcon(String icon) {
+    return FadeInImage.assetNetwork(
+      // 외부 image 조회 시 image가 조회되는 동안 보여줄 placeholder
+      placeholder: 'assets/images/loading.gif',
+      image: 'http://$kIconHost/img/wn/$icon@4x.png',
+      width: 96.0,
+      height: 96.0,
+    );
+  }
+
+  Widget formatDescText(String description) {
+    // unicase package 사용 : 대문자로 시작하고 나머지는 소문자로 변환
+    final formattedString = description.titleCase;
+    return Text(
+      formattedString,
+      style: const TextStyle(fontSize: 24.0),
+      textAlign: TextAlign.center,
     );
   }
 }

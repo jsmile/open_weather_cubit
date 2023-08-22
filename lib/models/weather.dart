@@ -64,7 +64,7 @@ class Weather extends Equatable {
     final main = map['main'];
 
     return Weather(
-      discription: weather['discription'] ?? '',
+      discription: weather['description'] ?? '',
       icon: weather['icon'] ?? '',
       temp: main['temp']?.toDouble() ?? 0.0,
       tempMin: main['temp_min']?.toDouble() ?? 0.0,
