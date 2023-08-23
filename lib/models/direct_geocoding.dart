@@ -24,7 +24,7 @@ class DirectGeocoding extends Equatable {
         lat: data['lat'],
         lon: data['lon'],
         country: data['country'],
-        state: data['state']);
+        state: data['state'] ?? ''); // state 가 아애 없는 경우 대비
   }
 
   @override
